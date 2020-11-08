@@ -1,7 +1,6 @@
 package com.stambulo.githubclient;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,8 +24,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //presenter = new Presenter();
-
         buttonCounter1 = findViewById(R.id.btn_counter1);
         buttonCounter2 = findViewById(R.id.btn_counter2);
         buttonCounter3 = findViewById(R.id.btn_counter3);
@@ -38,9 +35,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, View
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_counter1:
-                Log.d("--->", "MainActivity  onClick");
                 presenter.counterOneClick();
                 break;
 
@@ -55,10 +51,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, View
     }
 
     @Override
-    public void setButtonOneText(String text) {
-        Log.d("--->", "MainActivity  setButtonOneText");
-        buttonCounter1.setText(text);
-    }
+    public void setButtonOneText(String text) { buttonCounter1.setText(text); }
 
     @Override
     public void setButtonTwoText(String text) {
