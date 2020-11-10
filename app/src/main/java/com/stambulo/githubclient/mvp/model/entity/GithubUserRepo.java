@@ -16,4 +16,8 @@ public class GithubUserRepo {
     public List<GithubUser> getUsers(){
         return Collections.unmodifiableList(repositories);
     }
+
+    public GithubUser getLogin(int position){
+        return repositories.get(position);
+    }
 }

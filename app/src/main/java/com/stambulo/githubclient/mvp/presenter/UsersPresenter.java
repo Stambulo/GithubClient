@@ -1,20 +1,23 @@
 package com.stambulo.githubclient.mvp.presenter;
 
 import android.util.Log;
+
 import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.entity.GithubUserRepo;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.stambulo.githubclient.mvp.view.UserItemView;
 import com.stambulo.githubclient.mvp.view.UsersView;
+import com.stambulo.githubclient.navigation.Screens;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UsersPresenter extends MvpPresenter<UsersView> {
     private static final String TAG = UsersPresenter.class.getSimpleName();
-
     private static final boolean VERBOSE = true;
 
     private GithubUserRepo userRepo = new GithubUserRepo();
@@ -27,7 +30,10 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         @Override
         public void onItemClick(UserItemView view) {
             if (VERBOSE) {
-                Log.v(TAG, " onItemClick " + view.getPos());
+                router.navigateTo(new Screens.LoginScreen());
+
+                LoginPresenter loginPresenter = new LoginPresenter();
+                loginPresenter.setSelectedUser(view.getPos());
             }
         }
 
@@ -60,7 +66,6 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
     }
 
     public boolean backPressed(){
-        router.exit();
         return true;
     }
 }
