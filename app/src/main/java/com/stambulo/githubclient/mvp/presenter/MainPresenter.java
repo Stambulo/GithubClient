@@ -18,5 +18,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
         router.replaceScreen(new Screens.UserScreen());
     }
 
-    public void backClicked(){ router.exit(); }
+    public void backClicked(){
+        router.exit();
+    }
 }
