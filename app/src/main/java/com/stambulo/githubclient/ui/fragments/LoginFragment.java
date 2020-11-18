@@ -1,6 +1,7 @@
 package com.stambulo.githubclient.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 
 public class LoginFragment extends MvpAppCompatFragment implements LoginView, BackButtonListener {
-
     private TextView login;
     private View view;
 
@@ -27,10 +27,8 @@ public class LoginFragment extends MvpAppCompatFragment implements LoginView, Ba
 
     public static LoginFragment getInstance(int data){
         LoginFragment fragment = new LoginFragment();
-
         Bundle bundle = new Bundle();
         bundle.putInt("key", data);
-
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -40,7 +38,6 @@ public class LoginFragment extends MvpAppCompatFragment implements LoginView, Ba
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
         login = (TextView)view.findViewById(R.id.tv_login);
-
         return view;
     }
 
