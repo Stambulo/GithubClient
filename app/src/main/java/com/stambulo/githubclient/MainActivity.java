@@ -1,10 +1,9 @@
 package com.stambulo.githubclient;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
+import com.stambulo.githubclient.mvp.presenter.LoginPresenter;
 import com.stambulo.githubclient.mvp.presenter.MainPresenter;
 import com.stambulo.githubclient.mvp.view.MainView;
 import com.stambulo.githubclient.ui.BackButtonListener;
@@ -15,12 +14,11 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.support.SupportAppNavigator;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
+    private NavigatorHolder navigatorHolder = GithubApplication.getApplication().getNavigatorHolder();
+    private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.container);
 
     @InjectPresenter
     MainPresenter presenter;
-
-    private NavigatorHolder navigatorHolder = GithubApplication.getApplication().getNavigatorHolder();
-    private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.container);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +35,17 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     protected void onPause() {
         super.onPause();
-
         navigatorHolder.removeNavigator();
     }
 
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-
         for (Fragment fragment : getSupportFragmentManager().getFragments()){
             if (fragment instanceof BackButtonListener && ((BackButtonListener) fragment).backPressed()){
                 return;
             }
         }
-
         presenter.backClicked();
     }
 }

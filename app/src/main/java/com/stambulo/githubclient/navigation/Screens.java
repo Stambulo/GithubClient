@@ -7,11 +7,13 @@ import com.stambulo.githubclient.ui.fragments.UsersFragment;
 import ru.terrakok.cicerone.android.support.SupportAppScreen;
 
 public class Screens {
-    public static class UserScreen extends SupportAppScreen{
 
+    public static class UserScreen extends SupportAppScreen{
         @Override
         public Fragment getFragment(){ return UsersFragment.getInstance(0); }
     }
+
+
 
     public static class LoginScreen extends SupportAppScreen{
         @Override
