@@ -11,8 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
+
 import com.stambulo.githubclient.R;
 import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -27,6 +30,11 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @InjectPresenter
     UsersPresenter usersPresenter;
+
+    @ProvidePresenter
+    UsersPresenter provideUsersPresenter(){
+        return new UsersPresenter(AndroidSchedulers.mainThread());
+    }
 
     public static UsersFragment getInstance(int data){
         UsersFragment fragment = new UsersFragment();

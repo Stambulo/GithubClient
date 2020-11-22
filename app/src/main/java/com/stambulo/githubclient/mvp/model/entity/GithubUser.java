@@ -1,11 +1,30 @@
 package com.stambulo.githubclient.mvp.model.entity;
 
-public class GithubUser {
-    private String login;
+import com.google.gson.annotations.Expose;
 
-    public GithubUser(String login){ this.login = login; }
+public class GithubUser {
+    @Expose private String id;
+    @Expose private String login;
+    @Expose private String avatarUrl;
+    @Expose private String repoUrl;
+
+    public GithubUser(String login){
+        this.login = login;
+    }
 
     public String getLogin(){
         return login;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public String getRepoUrl() {
+        return repoUrl;
     }
 }

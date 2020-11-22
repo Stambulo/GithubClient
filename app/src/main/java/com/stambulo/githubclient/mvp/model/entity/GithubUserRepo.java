@@ -10,12 +10,18 @@ import io.reactivex.rxjava3.core.Observable;
 
 public class GithubUserRepo {
     private static String currentLogin;
-    public void setCurrentLogin(String login){currentLogin = login;}
-    public String getCurrentLogin(){return currentLogin;}
 
-        public @NonNull Observable<List<GithubUser>> fromIterable() {
-            return Observable.fromIterable(Arrays.asList(repositories));
-        }
+    public void setCurrentLogin(String login) {
+        currentLogin = login;
+    }
+
+    public String getCurrentLogin() {
+        return currentLogin;
+    }
+
+    public @NonNull Observable<List<GithubUser>> fromIterable() {
+        return Observable.fromIterable(Arrays.asList(repositories));
+    }
 
     private List<GithubUser> repositories = new ArrayList<>(Arrays.asList(
             new GithubUser("login1"),

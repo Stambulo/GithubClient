@@ -2,6 +2,8 @@ package com.stambulo.githubclient;
 
 import android.app.Application;
 
+import com.stambulo.githubclient.mvp.model.api.IDataSource;
+
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
@@ -10,6 +12,7 @@ public class GithubApplication extends Application {
     public static GithubApplication INSTANCE;
 
     private Cicerone<Router> cicerone;
+    private ApiHolder apiHolder;
 
     @Override
     public void onCreate() {
@@ -18,6 +21,7 @@ public class GithubApplication extends Application {
         INSTANCE = this;
 
         initCicerone();
+        apiHolder = new ApiHolder();
     }
 
     public static GithubApplication getApplication(){
@@ -34,5 +38,9 @@ public class GithubApplication extends Application {
 
     public NavigatorHolder getNavigatorHolder() {
         return cicerone.getNavigatorHolder();
+    }
+
+    public IDataSource getApi() {
+        return apiHolder.getDataSource();
     }
 }

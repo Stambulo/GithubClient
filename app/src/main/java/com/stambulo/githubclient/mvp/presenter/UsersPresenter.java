@@ -1,8 +1,12 @@
 package com.stambulo.githubclient.mvp.presenter;
 
+import android.util.Log;
+
 import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.entity.GithubUserRepo;
+import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
+import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.stambulo.githubclient.mvp.view.UserItemView;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -13,15 +17,25 @@ import java.util.List;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UsersPresenter extends MvpPresenter<UsersView> {
     private static final boolean VERBOSE = true;
-    private GithubUserRepo userRepo = new GithubUserRepo();
     private Router router = GithubApplication.getApplication().getRouter();
+
+    private final IGithubUsersRepo usersRepo;
+    private final Scheduler scheduler;
+
+    public UsersPresenter(Scheduler scheduler) {
+        this.scheduler = scheduler;
+        usersRepo = new RetrofitGithubUsersRepo(GithubApplication.INSTANCE.getApi());
+    }
+
     private UsersListPresenter usersListPresenter = new UsersListPresenter();
+
     public UsersListPresenter getUserListPresenter() {
         return usersListPresenter;
     }
@@ -33,6 +47,16 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         loadData();
     }
 
+    private void loadData() {
+        usersRepo.getUsers().observeOn(scheduler).subscribe(repos -> {
+            usersListPresenter.users.clear();
+            usersListPresenter.users.addAll(repos);
+            getViewState().updateList();
+        }, (e) -> {
+            Log.w("--->", "Error" + e.getMessage());
+        });
+    }
+
 
     private class UsersListPresenter implements IUserListPresenter {
         private List<GithubUser> users = new ArrayList<>();
@@ -40,7 +64,8 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         @Override
         public void onItemClick(UserItemView view) {
             if (VERBOSE) {
-                userRepo.setCurrentLogin(users.get(view.getPos()).getLogin());
+                GithubUserRepo githubUserRepo = new GithubUserRepo();
+                githubUserRepo.setCurrentLogin(usersListPresenter.users.get(view.getPos()).getLogin());
                 router.navigateTo(new Screens.LoginScreen());
             }
         }
@@ -57,47 +82,8 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         }
     }
 
-
-    private void loadData() {
-        GithubUserRepo producer = new GithubUserRepo();
-        Consumer consumer = new Consumer(producer);
-        consumer.execFromIterable();
-    }
-
-    class Consumer {
-        GithubUserRepo producer;
-
-        public Consumer(GithubUserRepo producer){
-            this.producer = producer;
-        }
-
-        final Observer<List<GithubUser>> stringObserver = new Observer<List<GithubUser>>() {
-            Disposable disposable;
-
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-                disposable = d;
-            }
-
-            @Override
-            public void onNext(@NonNull List<GithubUser> githubUsers) {
-                usersListPresenter.users = githubUsers;
-                getViewState().updateList();
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {}
-
-            @Override
-            public void onComplete() {}
-        };
-
-        public void execFromIterable(){
-            producer.fromIterable().subscribe(stringObserver);
-        }
-    }
-
     public boolean backPressed() {
+        //router.exit();
         return true;
     }
 }
