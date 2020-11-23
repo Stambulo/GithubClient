@@ -46,6 +46,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("--->", "UserFragment - onCreate");
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {

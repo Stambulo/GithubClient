@@ -9,8 +9,8 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 public class GithubApplication extends Application {
-    public static GithubApplication INSTANCE;
 
+    public static GithubApplication INSTANCE;
     private Cicerone<Router> cicerone;
     private ApiHolder apiHolder;
 
@@ -19,7 +19,6 @@ public class GithubApplication extends Application {
         super.onCreate();
 
         INSTANCE = this;
-
         initCicerone();
         apiHolder = new ApiHolder();
     }

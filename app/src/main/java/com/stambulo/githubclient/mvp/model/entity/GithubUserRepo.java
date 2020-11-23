@@ -19,9 +19,6 @@ public class GithubUserRepo {
         return currentLogin;
     }
 
-    public @NonNull Observable<List<GithubUser>> fromIterable() {
-        return Observable.fromIterable(Arrays.asList(repositories));
-    }
 
     private List<GithubUser> repositories = new ArrayList<>(Arrays.asList(
             new GithubUser("login1"),

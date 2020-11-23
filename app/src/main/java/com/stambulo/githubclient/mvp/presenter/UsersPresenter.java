@@ -42,6 +42,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
 
     @Override
     protected void onFirstViewAttach() {
+        Log.i("--->", "UserPresenter - onFirstViewAttach");
         super.onFirstViewAttach();
         getViewState().init();
         loadData();
@@ -66,7 +67,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
             if (VERBOSE) {
                 GithubUserRepo githubUserRepo = new GithubUserRepo();
                 githubUserRepo.setCurrentLogin(usersListPresenter.users.get(view.getPos()).getLogin());
-                router.navigateTo(new Screens.LoginScreen());
+                router.navigateTo(new Screens.ReposScreen());
             }
         }
 
@@ -74,6 +75,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         public void bindView(UserItemView view) {
             GithubUser user = users.get(view.getPos());
             view.setLogin(user.getLogin());
+            view.loadAvatar(user.getAvatarUrl());
         }
 
         @Override
