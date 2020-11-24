@@ -1,7 +1,6 @@
 package com.stambulo.githubclient.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import moxy.MvpAppCompatFragment;
-import moxy.presenter.InjectPresenter;
-import moxy.presenter.ProvidePresenter;
-
 import com.stambulo.githubclient.R;
 import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 import com.stambulo.githubclient.mvp.view.UsersView;
 import com.stambulo.githubclient.ui.BackButtonListener;
 import com.stambulo.githubclient.ui.adapter.UserRVAdapter;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import moxy.MvpAppCompatFragment;
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class UsersFragment extends MvpAppCompatFragment implements UsersView, BackButtonListener {
     private RecyclerView recyclerView;
@@ -46,7 +45,6 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i("--->", "UserFragment - onCreate");
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {

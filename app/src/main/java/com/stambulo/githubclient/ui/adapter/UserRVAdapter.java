@@ -31,27 +31,20 @@ public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View userView = inflater.inflate(R.layout.item_user, parent, false);
-
         ViewHolder viewHolder = new ViewHolder(userView);
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.i("--->", "UserRVAdapter - onBindHolder");
         holder.position = position;
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 presenter.onItemClick(holder);
             }
         });
-
         presenter.bindView(holder);
     }
 

@@ -34,6 +34,11 @@ public class ReposFragment extends MvpAppCompatFragment implements ReposView, Ba
     @InjectPresenter
     ReposPresenter reposPresenter;
 
+    @ProvidePresenter
+    ReposPresenter provideReposPresenter(){
+        return new ReposPresenter(AndroidSchedulers.mainThread());
+    }
+
     public static ReposFragment getInstance(int data){
         ReposFragment fragment = new ReposFragment();
         Bundle bundle = new Bundle();

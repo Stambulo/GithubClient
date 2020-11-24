@@ -6,7 +6,9 @@ import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.entity.GithubUserRepo;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
+import com.stambulo.githubclient.mvp.model.repo.IUsersRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
+import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitUsersRepositories;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.stambulo.githubclient.mvp.view.UserItemView;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -42,7 +44,6 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
 
     @Override
     protected void onFirstViewAttach() {
-        Log.i("--->", "UserPresenter - onFirstViewAttach");
         super.onFirstViewAttach();
         getViewState().init();
         loadData();
@@ -67,8 +68,8 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
             if (VERBOSE) {
                 GithubUserRepo githubUserRepo = new GithubUserRepo();
                 githubUserRepo.setCurrentLogin(usersListPresenter.users.get(view.getPos()).getLogin());
-                router.navigateTo(new Screens.ReposScreen());
             }
+            router.navigateTo(new Screens.ReposScreen());
         }
 
         @Override
