@@ -7,5 +7,5 @@ import moxy.viewstate.strategy.alias.AddToEndSingle;
 @AddToEndSingle
 public interface ReposView extends MvpView {
     void init();
-    void showRepos();
+    void updateList();
 }

@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiHolder {
-    private IDataSource dataSource;
+    private final IDataSource dataSource;
 
     ApiHolder(){
         Gson gson = new GsonBuilder().setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

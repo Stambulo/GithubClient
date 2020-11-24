@@ -24,7 +24,6 @@ import moxy.presenter.ProvidePresenter;
 public class UsersFragment extends MvpAppCompatFragment implements UsersView, BackButtonListener {
     private RecyclerView recyclerView;
     private UserRVAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private View view;
 
     @InjectPresenter
@@ -37,19 +36,12 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     public static UsersFragment getInstance(int data){
         UsersFragment fragment = new UsersFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("key", data);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            // запоминаем
-        }
     }
 
     @Nullable
@@ -62,7 +54,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @Override
     public void init() {
-        layoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new UserRVAdapter(usersPresenter.getUserListPresenter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

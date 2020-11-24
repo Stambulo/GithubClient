@@ -7,7 +7,17 @@ import java.util.List;
 
 public class UsersRepositoriesRepo{
 
-    private List<Repository> usersRepositories = new ArrayList<>(Arrays.asList(
+    private static String currentRepository;
+
+    public void setCurrentRepository(String repository){
+        currentRepository = repository;
+    }
+
+    public String getCurrentRepository() {
+        return currentRepository;
+    }
+
+    private final List<Repository> usersRepositories = new ArrayList<>(Arrays.asList(
             new Repository("Repository 1"),
             new Repository("Repository 2"),
             new Repository("Repository 3"),

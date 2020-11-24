@@ -4,19 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stambulo.githubclient.R;
-import com.stambulo.githubclient.mvp.model.repo.IUsersRepositoriesRepo;
 import com.stambulo.githubclient.mvp.presenter.ReposPresenter;
-import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 import com.stambulo.githubclient.mvp.view.ReposView;
 import com.stambulo.githubclient.ui.BackButtonListener;
 import com.stambulo.githubclient.ui.adapter.ReposRVAdapter;
-import com.stambulo.githubclient.ui.adapter.UserRVAdapter;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;
@@ -28,8 +26,6 @@ public class ReposFragment extends MvpAppCompatFragment implements ReposView, Ba
     private View view;
     private RecyclerView recyclerView;
     private ReposRVAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private String[] listData = new String[] {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
 
     @InjectPresenter
     ReposPresenter reposPresenter;
@@ -57,18 +53,19 @@ public class ReposFragment extends MvpAppCompatFragment implements ReposView, Ba
 
     @Override
     public void init() {
-        layoutManager = new LinearLayoutManager(view.getContext());
-        adapter = new ReposRVAdapter(listData);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        adapter = new ReposRVAdapter(reposPresenter.getReposListPresenter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void showRepos() {
+    public void updateList() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean backPressed() {
-        return false;
+        return reposPresenter.backPressed();
     }
 }

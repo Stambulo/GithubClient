@@ -6,9 +6,7 @@ import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.entity.GithubUserRepo;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
-import com.stambulo.githubclient.mvp.model.repo.IUsersRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
-import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitUsersRepositories;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.stambulo.githubclient.mvp.view.UserItemView;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -17,16 +15,13 @@ import com.stambulo.githubclient.navigation.Screens;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.disposables.Disposable;
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UsersPresenter extends MvpPresenter<UsersView> {
     private static final boolean VERBOSE = true;
-    private Router router = GithubApplication.getApplication().getRouter();
+    private final Router router = GithubApplication.getApplication().getRouter();
 
     private final IGithubUsersRepo usersRepo;
     private final Scheduler scheduler;
@@ -36,7 +31,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         usersRepo = new RetrofitGithubUsersRepo(GithubApplication.INSTANCE.getApi());
     }
 
-    private UsersListPresenter usersListPresenter = new UsersListPresenter();
+    private final UsersListPresenter usersListPresenter = new UsersListPresenter();
 
     public UsersListPresenter getUserListPresenter() {
         return usersListPresenter;
@@ -54,14 +49,12 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
             usersListPresenter.users.clear();
             usersListPresenter.users.addAll(repos);
             getViewState().updateList();
-        }, (e) -> {
-            Log.w("--->", "Error" + e.getMessage());
-        });
+        }, (e) -> Log.w("--->", "Error" + e.getMessage()));
     }
 
 
     private class UsersListPresenter implements IUserListPresenter {
-        private List<GithubUser> users = new ArrayList<>();
+        private final List<GithubUser> users = new ArrayList<>();
 
         @Override
         public void onItemClick(UserItemView view) {

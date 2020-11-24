@@ -1,7 +1,6 @@
 package com.stambulo.githubclient.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.stambulo.githubclient.mvp.view.image.IImageLoader;
 public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder> {
 
     IUserListPresenter presenter;
-    private static IImageLoader<ImageView> imageLoader = new GlideImageLoader();
+    private static final IImageLoader<ImageView> imageLoader = new GlideImageLoader();
 
     public UserRVAdapter(IUserListPresenter presenter){
         this.presenter = presenter;
@@ -32,19 +31,13 @@ public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View userView = inflater.inflate(R.layout.item_user, parent, false);
-        ViewHolder viewHolder = new ViewHolder(userView);
-        return viewHolder;
+        return new ViewHolder(userView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.position = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onItemClick(holder);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> presenter.onItemClick(holder));
         presenter.bindView(holder);
     }
 
