@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Popular Libraries</string>
-    <string name="counter_one">Счетчик 1</string>
-    <string name="counter_two">Счетчик 2</string>
-    <string name="counter_three">Счетчик 3</string>
     <string name="textview_for_login">TextView for - Login</string>
+    <string name="forks_number">Forks Number</string>
+    <string name="repo_name">Repository</string>
+    <string name="repo_label">Repo 1</string>
+    <string name="forks_number_label">N - Forks</string>
 </resources>

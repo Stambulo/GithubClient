@@ -7,7 +7,7 @@ import com.stambulo.githubclient.navigation.Screens;
 import ru.terrakok.cicerone.Router;
 
 public class MainPresenter extends MvpPresenter<MainView> {
-    private Router router = GithubApplication.getApplication().getRouter();
+    private final Router router = GithubApplication.getApplication().getRouter();
 
     @Override
     protected void onFirstViewAttach() {

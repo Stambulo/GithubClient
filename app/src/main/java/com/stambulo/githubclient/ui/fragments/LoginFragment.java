@@ -1,7 +1,6 @@
 package com.stambulo.githubclient.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +19,19 @@ import moxy.presenter.InjectPresenter;
 
 public class LoginFragment extends MvpAppCompatFragment implements LoginView, BackButtonListener {
     private TextView login;
-    private View view;
 
     @InjectPresenter
     LoginPresenter loginPresenter;
 
     public static LoginFragment getInstance(int data){
-        LoginFragment fragment = new LoginFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("key", data);
-        fragment.setArguments(bundle);
-        return fragment;
+        return new LoginFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_login, container, false);
-        login = (TextView)view.findViewById(R.id.tv_login);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        login = view.findViewById(R.id.tv_login);
         return view;
     }
 
@@ -52,6 +46,6 @@ public class LoginFragment extends MvpAppCompatFragment implements LoginView, Ba
 
     @Override
     public boolean backPressed() {
-        return true;
+        return loginPresenter.backPressed();
     }
 }

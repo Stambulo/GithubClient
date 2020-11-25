@@ -11,51 +11,46 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stambulo.githubclient.R;
-import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
-import com.stambulo.githubclient.mvp.view.UsersView;
+import com.stambulo.githubclient.mvp.presenter.ReposPresenter;
+import com.stambulo.githubclient.mvp.view.ReposView;
 import com.stambulo.githubclient.ui.BackButtonListener;
-import com.stambulo.githubclient.ui.adapter.UserRVAdapter;
+import com.stambulo.githubclient.ui.adapter.ReposRVAdapter;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
 
-public class UsersFragment extends MvpAppCompatFragment implements UsersView, BackButtonListener {
-    private RecyclerView recyclerView;
-    private UserRVAdapter adapter;
+
+public class ReposFragment extends MvpAppCompatFragment implements ReposView, BackButtonListener {
     private View view;
+    private RecyclerView recyclerView;
+    private ReposRVAdapter adapter;
 
     @InjectPresenter
-    UsersPresenter usersPresenter;
+    ReposPresenter reposPresenter;
 
     @ProvidePresenter
-    UsersPresenter provideUsersPresenter(){
-        return new UsersPresenter(AndroidSchedulers.mainThread());
+    ReposPresenter provideReposPresenter(){
+        return new ReposPresenter(AndroidSchedulers.mainThread());
     }
 
-    public static UsersFragment getInstance(int data){
-        UsersFragment fragment = new UsersFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static ReposFragment getInstance(int data){
+        return new ReposFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_users, container, false);
-        recyclerView = view.findViewById(R.id.rv_users);
+        view = inflater.inflate(R.layout.fragment_repos, container, false);
+        recyclerView = view.findViewById(R.id.rv_repos);
         return view;
     }
 
     @Override
     public void init() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        adapter = new UserRVAdapter(usersPresenter.getUserListPresenter());
+        adapter = new ReposRVAdapter(reposPresenter.getReposListPresenter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -67,6 +62,6 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @Override
     public boolean backPressed() {
-        return usersPresenter.backPressed();
+        return reposPresenter.backPressed();
     }
 }
