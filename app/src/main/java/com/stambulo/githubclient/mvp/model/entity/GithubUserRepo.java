@@ -2,24 +2,18 @@ package com.stambulo.githubclient.mvp.model.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GithubUserRepo {
-    private static String currentLogin;
-
-    public void setCurrentLogin(String login) {
-        currentLogin = login;
-    }
-
-    public String getCurrentLogin() {
-        return currentLogin;
-    }
-
-
     private final List<GithubUser> repositories = new ArrayList<>(Arrays.asList(
-            new GithubUser("login1"),
-            new GithubUser("login2"),
-            new GithubUser("login3"),
-            new GithubUser("login4"),
-            new GithubUser("login5")));
+            new GithubUser("1", "login1", "", ""),
+            new GithubUser("2", "login2", "", ""),
+            new GithubUser("3", "login3", "", ""),
+            new GithubUser("4", "login4", "", ""),
+            new GithubUser("5", "login5", "", "")));
+
+    public List<GithubUser> getUser() {
+        return Collections.unmodifiableList(repositories);
+    }
 }

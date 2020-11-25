@@ -2,34 +2,45 @@ package com.stambulo.githubclient.navigation;
 
 import androidx.fragment.app.Fragment;
 
-import com.stambulo.githubclient.ui.fragments.ForkFragment;
-import com.stambulo.githubclient.ui.fragments.LoginFragment;
-import com.stambulo.githubclient.ui.fragments.ReposFragment;
+import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
+import com.stambulo.githubclient.mvp.model.entity.GithubUser;
+import com.stambulo.githubclient.ui.fragments.RepositoryFragment;
+import com.stambulo.githubclient.ui.fragments.UserFragment;
 import com.stambulo.githubclient.ui.fragments.UsersFragment;
 import ru.terrakok.cicerone.android.support.SupportAppScreen;
 
 public class Screens {
-
-    public static class UserScreen extends SupportAppScreen{
+    public static class UsersScreen extends SupportAppScreen {
         @Override
-        public Fragment getFragment(){ return UsersFragment.getInstance(0); }
+        public Fragment getFragment() {
+            return UsersFragment.getInstance();
+        }
     }
 
 
-    public static class LoginScreen extends SupportAppScreen{
+
+    public static class UserScreen extends SupportAppScreen {
+        private final GithubUser user;
+        public UserScreen(GithubUser user) {
+            this.user = user;
+        }
         @Override
-        public Fragment getFragment() { return LoginFragment.getInstance(0); }
+        public Fragment getFragment() {
+            return UserFragment.newInstance(user);
+        }
     }
 
 
-    public static class ReposScreen extends SupportAppScreen{
+
+    public static class RepositoryScreen extends SupportAppScreen {
+        private final GithubRepository repository;
+        public RepositoryScreen(GithubRepository repo) {
+            this.repository = repo;
+        }
         @Override
-        public Fragment getFragment() { return ReposFragment.getInstance(0); }
+        public Fragment getFragment() {
+            return RepositoryFragment.newInstance(repository);
+        }
     }
 
-
-    public static class ForkScreen extends SupportAppScreen{
-        @Override
-        public Fragment getFragment() { return ForkFragment.getInstance(0); }
-    }
 }

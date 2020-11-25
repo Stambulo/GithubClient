@@ -1,4 +1,4 @@
-package com.stambulo.githubclient.mvp.view;
+package com.stambulo.githubclient.mvp.view.list;
 
 public interface IItemView {
     int getPos();

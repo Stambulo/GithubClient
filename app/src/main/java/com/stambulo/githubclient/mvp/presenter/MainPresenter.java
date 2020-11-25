@@ -12,7 +12,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        router.replaceScreen(new Screens.UserScreen());
+        router.replaceScreen(new Screens.UsersScreen());
     }
 
     public void backClicked(){
