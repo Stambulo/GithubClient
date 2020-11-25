@@ -36,18 +36,14 @@ public class ReposFragment extends MvpAppCompatFragment implements ReposView, Ba
     }
 
     public static ReposFragment getInstance(int data){
-        ReposFragment fragment = new ReposFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("key", data);
-        fragment.setArguments(bundle);
-        return fragment;
+        return new ReposFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_repos, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv_repos);
+        recyclerView = view.findViewById(R.id.rv_repos);
         return view;
     }
 

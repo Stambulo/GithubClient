@@ -24,15 +24,14 @@ public class LoginFragment extends MvpAppCompatFragment implements LoginView, Ba
     LoginPresenter loginPresenter;
 
     public static LoginFragment getInstance(int data){
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+        return new LoginFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        login = (TextView) view.findViewById(R.id.tv_login);
+        login = view.findViewById(R.id.tv_login);
         return view;
     }
 

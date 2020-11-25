@@ -3,6 +3,7 @@ package com.stambulo.githubclient.mvp.presenter;
 import android.util.Log;
 
 import com.stambulo.githubclient.GithubApplication;
+import com.stambulo.githubclient.mvp.model.entity.ForkData;
 import com.stambulo.githubclient.mvp.model.entity.GithubUserRepo;
 import com.stambulo.githubclient.mvp.model.entity.Repository;
 import com.stambulo.githubclient.mvp.model.entity.UsersRepositoriesRepo;
@@ -11,6 +12,7 @@ import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitUsersRepositori
 import com.stambulo.githubclient.mvp.presenter.list.IReposListPresenter;
 import com.stambulo.githubclient.mvp.view.ReposItemView;
 import com.stambulo.githubclient.mvp.view.ReposView;
+import com.stambulo.githubclient.navigation.Screens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,9 @@ public class ReposPresenter extends MvpPresenter<ReposView> {
         public void onItemClick(ReposItemView view) {
             UsersRepositoriesRepo usersRepositoriesRepo = new UsersRepositoriesRepo();
             usersRepositoriesRepo.setCurrentRepository(reposListPresenter.repos.get(view.getPos()).getName());
-            //router.navigateTo(new Screens. ReposScreen());
+            ForkData.setForkName(reposListPresenter.repos.get(view.getPos()).getName());
+            ForkData.setForksSum(reposListPresenter.repos.get(view.getPos()).getForks());
+            router.navigateTo(new Screens.ForkScreen());
         }
 
         @Override
@@ -74,7 +78,6 @@ public class ReposPresenter extends MvpPresenter<ReposView> {
     }
 
     public boolean backPressed() {
-        router.exit();
         return true;
     }
 }

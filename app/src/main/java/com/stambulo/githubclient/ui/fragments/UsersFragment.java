@@ -48,7 +48,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_users, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv_users);
+        recyclerView = view.findViewById(R.id.rv_users);
         return view;
     }
 
