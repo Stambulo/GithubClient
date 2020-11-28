@@ -27,17 +27,20 @@ public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
 
     @Override
     public Single<List<GithubRepository>> getRepositories(GithubUser user) {
-        return networkStatus.isOnlineSingle().flatMap((isOnline)-> {
-            if (isOnline) {
+        return networkStatus.isOnlineSingle().flatMap((isOline)-> {
+            if (isOline) {
                 final String url = user.getReposUrl();
 
                 if (url != null) {
-                    return api.getRepositories(url).flatMap((repositories) ->
-                            cache.putUserRepos(user, repositories).toSingleDefault(repositories));
+                    return api.getRepositories(url).flatMap((repositories) -> {
+                        return cache.putUserRepos(user, repositories).toSingleDefault(repositories);
+                    });
                 } else {
-                    return Single.fromCallable(Collections::<GithubRepository>emptyList);
+                    return Single.fromCallable(()->{
+                        final List<GithubRepository> emptyList = Collections.emptyList();
+                        return emptyList;
+                    });
                 }
-
             } else {
                 return cache.getUserRepos(user);
             }

@@ -41,10 +41,13 @@ public class UserFragment extends MvpAppCompatFragment implements UserView, Back
     @ProvidePresenter
     UserPresenter provideUserPresenter() {
         final GithubUser user = getArguments().getParcelable(USER_ARG);
+
         IGithubRepositoriesRepo githubRepositoriesRepo = new RetrofitGithubRepositoriesRepo(GithubApplication.INSTANCE.getApi(),
                 new AndroidNetworkStatus(),
                 new RoomGithubRepositoriesCache(Database.getInstance()));
+
         Router router = GithubApplication.getApplication().getRouter();
+
         return new UserPresenter(user, AndroidSchedulers.mainThread(), githubRepositoriesRepo, router);
     }
 

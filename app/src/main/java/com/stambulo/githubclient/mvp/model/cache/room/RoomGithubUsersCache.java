@@ -14,6 +14,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RoomGithubUsersCache implements IGithubUsersCache {
     private final Database db;
+
     public RoomGithubUsersCache(Database db) {
         this.db = db;
     }
@@ -23,30 +24,36 @@ public class RoomGithubUsersCache implements IGithubUsersCache {
     public Single<List<GithubUser>> getUsers() {
         return Single.fromCallable(()->{
             List<RoomGithubUser> roomGithubUsers = db.userDao().getAll();
+
             List<GithubUser> users = new ArrayList<>();
+
             for (RoomGithubUser roomGithubUser : roomGithubUsers) {
                 GithubUser githubUser = new GithubUser(roomGithubUser.getId(),
                         roomGithubUser.getLogin(),
                         roomGithubUser.getAvatarUrl(),
                         roomGithubUser.getReposUrl());
+
                 users.add(githubUser);
             }
+
             return users;
         });
     }
-
 
     @Override
     public Completable saveUsers(List<GithubUser> users) {
         return Completable.fromAction(()->{
             List<RoomGithubUser> roomGithubUsers = new ArrayList<>();
+
             for (GithubUser user: users) {
                 RoomGithubUser roomUser = new RoomGithubUser(user.getId(),
                         user.getLogin(),
                         user.getAvatarUrl(),
                         user.getReposUrl());
+
                 roomGithubUsers.add(roomUser);
             }
+
             db.userDao().insert(roomGithubUsers);
         }).subscribeOn(Schedulers.io());
     }

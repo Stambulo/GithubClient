@@ -15,6 +15,7 @@ import com.stambulo.githubclient.mvp.view.list.RepositoryItemView;
 
 public class RepositoriesRVAdapter extends RecyclerView.Adapter<RepositoriesRVAdapter.ViewHolder> {
     private IRepositoryListPresenter mPresenter;
+
     public RepositoriesRVAdapter(IRepositoryListPresenter presenter) {
         mPresenter = presenter;
     }
@@ -24,20 +25,25 @@ public class RepositoriesRVAdapter extends RecyclerView.Adapter<RepositoriesRVAd
     public RepositoriesRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+
         View repoView = inflater.inflate(R.layout.item_repository, parent, false);
+
         RepositoriesRVAdapter.ViewHolder viewHolder = new RepositoriesRVAdapter.ViewHolder(repoView);
+
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RepositoriesRVAdapter.ViewHolder holder, int position) {
         holder.position = position;
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPresenter.onItemClick(holder);
             }
         });
+
         mPresenter.bindView(holder);
     }
 
@@ -49,8 +55,10 @@ public class RepositoriesRVAdapter extends RecyclerView.Adapter<RepositoriesRVAd
     public static class ViewHolder extends RecyclerView.ViewHolder implements RepositoryItemView {
         TextView name;
         int position = -1;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             name = (TextView)itemView.findViewById(R.id.tv_name);
         }
 
