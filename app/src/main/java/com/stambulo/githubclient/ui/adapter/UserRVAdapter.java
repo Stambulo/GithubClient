@@ -17,12 +17,11 @@ import com.stambulo.githubclient.mvp.view.image.GlideImageLoader;
 import com.stambulo.githubclient.mvp.view.image.IImageLoader;
 
 public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder> {
-    private final IUserListPresenter presenter;
-    private static final IImageLoader<ImageView> imageLoader = new GlideImageLoader();
+    private IUserListPresenter presenter;
+    private static IImageLoader<ImageView> imageLoader = new GlideImageLoader();
     public UserRVAdapter(IUserListPresenter presenter) {
         this.presenter = presenter;
     }
-
 
     @NonNull
     @Override
@@ -30,23 +29,26 @@ public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View userView = inflater.inflate(R.layout.item_user, parent, false);
-        return new ViewHolder(userView);
+        ViewHolder viewHolder = new ViewHolder(userView);
+        return viewHolder;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.position = position;
-        holder.itemView.setOnClickListener(view -> presenter.onItemClick(holder));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.onItemClick(holder);
+            }
+        });
         presenter.bindView(holder);
     }
-
 
     @Override
     public int getItemCount() {
         return presenter.getCount();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements UserItemView {
         TextView textView;

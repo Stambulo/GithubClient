@@ -18,11 +18,8 @@ import ru.terrakok.cicerone.Router;
 
 public class UsersPresenter extends MvpPresenter<UsersView>  {
     private static final String TAG = UsersPresenter.class.getSimpleName();
-
     private static final boolean VERBOSE = true;
-
     private final Router router;
-
     private final IGithubUsersRepo usersRepo;
     private final Scheduler scheduler;
 
@@ -33,45 +30,39 @@ public class UsersPresenter extends MvpPresenter<UsersView>  {
     }
 
     private class UsersListPresenter implements IUserListPresenter {
-
         private final List<GithubUser> users = new ArrayList<>();
-
         @Override
         public void onItemClick(UserItemView view) {
             if (VERBOSE) {
                 Log.v(TAG, " onItemClick " + view.getPos());
             }
-
             GithubUser user = users.get(view.getPos());
             router.navigateTo(new Screens.UserScreen(user));
         }
-
         @Override
         public void bindView(UserItemView view) {
             GithubUser user = users.get(view.getPos());
             view.setLogin(user.getLogin());
             view.loadAvatar(user.getAvatarUrl());
         }
-
         @Override
         public int getCount() {
             return users.size();
         }
     }
 
-    private final UsersListPresenter usersListPresenter = new UsersListPresenter();
 
+    private final UsersListPresenter usersListPresenter = new UsersListPresenter();
     public UsersListPresenter getUsersListPresenter() {
         return usersListPresenter;
     }
 
+
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-
         getViewState().init();
         loadData();
-
     }
 
     private void loadData() {
@@ -83,7 +74,6 @@ public class UsersPresenter extends MvpPresenter<UsersView>  {
     }
 
     public boolean backPressed() {
-        //router.exit();
         return true;
 
     }

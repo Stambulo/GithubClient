@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.R;
+import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubRepositoriesCache;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.entity.room.Database;
 import com.stambulo.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
@@ -39,10 +40,10 @@ public class UserFragment extends MvpAppCompatFragment implements UserView, Back
 
     @ProvidePresenter
     UserPresenter provideUserPresenter() {
-        GithubUser user = getArguments().getParcelable(USER_ARG);
+        final GithubUser user = getArguments().getParcelable(USER_ARG);
         IGithubRepositoriesRepo githubRepositoriesRepo = new RetrofitGithubRepositoriesRepo(GithubApplication.INSTANCE.getApi(),
                 new AndroidNetworkStatus(),
-                Database.getInstance());
+                new RoomGithubRepositoriesCache(Database.getInstance()));
         Router router = GithubApplication.getApplication().getRouter();
         return new UserPresenter(user, AndroidSchedulers.mainThread(), githubRepositoriesRepo, router);
     }

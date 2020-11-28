@@ -13,7 +13,7 @@ public class Screens {
     public static class UsersScreen extends SupportAppScreen {
         @Override
         public Fragment getFragment() {
-            return UsersFragment.getInstance();
+            return UsersFragment.getInstance(0);
         }
     }
 
