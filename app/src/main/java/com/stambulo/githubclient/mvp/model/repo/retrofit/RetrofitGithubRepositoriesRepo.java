@@ -24,7 +24,6 @@ public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
     private static final String TAG = "--->";
     private final IDataSource api;
     private final INetworkStatus networkStatus;
-    private static boolean firstOnlineConnect = false;
     final IGithubRepositoriesCache cache;
     RetrofitGithubRepositoriesRepo githubRepositoriesRepo;
 
@@ -36,15 +35,19 @@ public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
 
     @Override
     public Single<List<GithubRepository>> getRepositories(GithubUser user) {
-        return networkStatus.isOnlineSingle().flatMap((isOnline)-> {
-            if (isOnline) {
-                firstOnlineConnect = true;
+        return networkStatus.isOnlineSingle().flatMap((isOline) -> {
+            if (isOline) {
                 final String url = user.getReposUrl();
+
                 if (url != null) {
-                    return api.getRepositories(url).flatMap((repositories) ->
-                            cache.putUserRepos(user, repositories).toSingleDefault(repositories));
+                    return api.getRepositories(url).flatMap((repositories) -> {
+                        return cache.putUserRepos(user, repositories).toSingleDefault(repositories);
+                    });
                 } else {
-                    return Single.fromCallable(Collections::<GithubRepository>emptyList);
+                    return Single.fromCallable(() -> {
+                        final List<GithubRepository> emptyList = Collections.emptyList();
+                        return emptyList;
+                    });
                 }
             } else {
                 return cache.getUserRepos(user);
@@ -54,22 +57,22 @@ public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
 
     @Override
     public Completable getAllRepositories(List<GithubUser> users) {
+        Log.i(TAG, "getAllRepositories: " + users.size());
         this.githubRepositoriesRepo = new RetrofitGithubRepositoriesRepo(GithubApplication.INSTANCE.getApi(),
                 new AndroidNetworkStatus(),
                 new RoomGithubRepositoriesCache(Database.getInstance()));
         return Completable.create((emitter -> {
             try {
-                if (firstOnlineConnect){   // Первый онлайн запрос, получаем все репозитории
-                    Log.i(TAG, "getAllRepositories: " + users.size());
-                    for (GithubUser user : users) {
-                        githubRepositoriesRepo.getRepositories(user).observeOn(Schedulers.io()).subscribe(repositories-> {
-                        }, (e) -> Log.w(TAG, "Error"));
-                    }
-                    firstOnlineConnect = false;
-                    emitter.onComplete();
-                } else {
-                    emitter.onError(new RuntimeException("Emitter error - getAllRepositories"));
-                }
+
+
+                /*for (GithubUser user : users) {
+                    Log.i(TAG, "getAllRepositories: " + user.getLogin());
+                    githubRepositoriesRepo.getRepositories(user).observeOn(Schedulers.io()).subscribe(repositories -> {
+
+                    }, (e) -> Log.w(TAG, "Error"));
+                }*/
+
+                emitter.onComplete();
             } catch (Throwable t) {
                 emitter.onError(new RuntimeException("Catch error - getAllRepositories !" + t));
             }

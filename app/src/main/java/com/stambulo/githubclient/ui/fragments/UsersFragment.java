@@ -57,10 +57,8 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     public static UsersFragment getInstance(int data) {
         UsersFragment fragment = new UsersFragment();
-
         Bundle bundle = new Bundle();
         bundle.putInt("key", data);
-
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -68,11 +66,8 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle bundle = getArguments();
-
         if (bundle != null) {
-            // запоминаем
         }
     }
 
@@ -80,9 +75,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_users, container, false);
-
         recyclerView = (RecyclerView)view.findViewById(R.id.rv_users);
-
         return view;
     }
 
