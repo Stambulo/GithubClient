@@ -24,25 +24,19 @@ public class RoomGithubRepositoriesCache implements IGithubRepositoriesCache {
     @Override
     public Single<List<GithubRepository>> getUserRepos(GithubUser user) {
         return Single.fromCallable(()-> {
-
             RoomGithubUser roomUser = db.userDao().findByLogin(user.getLogin());
 
-            if (roomUser == null) {
-                throw new RuntimeException("No such user in cache");
-            }
+            if (roomUser == null) { throw new RuntimeException("No such user in cache"); }
 
             List<RoomGithubRepository> roomGithubRepository = db.repositoryDao().findByUser(roomUser.getId());
-
             List<GithubRepository> githubRepositoryList = new ArrayList<>();
 
             for (RoomGithubRepository roomGithubrepository : roomGithubRepository) {
                 GithubRepository githubRepository = new GithubRepository(roomGithubrepository.getId(),
                         roomGithubrepository.getName(),
                         roomGithubrepository.getForksCount());
-
                 githubRepositoryList.add(githubRepository);
             }
-
             return githubRepositoryList;
         });
     }
@@ -51,14 +45,12 @@ public class RoomGithubRepositoriesCache implements IGithubRepositoriesCache {
     public Completable putUserRepos(GithubUser user, List<GithubRepository> repositories) {
         return Completable.fromAction(()->{
             RoomGithubUser roomUser = db.userDao().findByLogin(user.getLogin());
-
             List<RoomGithubRepository> roomGithubRepositories = new ArrayList<>();
 
             for (GithubRepository repo: repositories) {
                 RoomGithubRepository roomRepo = new RoomGithubRepository(repo.getId(), repo.getName(), repo.getForksCount(), roomUser.getId());
                 roomGithubRepositories.add(roomRepo);
             }
-
             db.repositoryDao().insert(roomGithubRepositories);
         }).subscribeOn(Schedulers.io());
     }

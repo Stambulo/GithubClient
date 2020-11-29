@@ -18,7 +18,7 @@ import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UserPresenter extends MvpPresenter<UserView> {
-    private static final String TAG = UserPresenter.class.getSimpleName();
+    private static final String TAG = "--->";
 
     private static final boolean VERBOSE = true;
 
@@ -39,7 +39,7 @@ public class UserPresenter extends MvpPresenter<UserView> {
         @Override
         public void onItemClick(RepositoryItemView view) {
             if (VERBOSE) {
-                Log.v(TAG, " onItemClick " + view.getPos());
+                Log.i(TAG, " onItemClick " + view.getPos());
             }
             final GithubRepository repository = repositories.get(view.getPos());
             router.navigateTo(new Screens.RepositoryScreen(repository));

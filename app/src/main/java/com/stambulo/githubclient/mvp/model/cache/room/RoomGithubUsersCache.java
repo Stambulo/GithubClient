@@ -24,7 +24,6 @@ public class RoomGithubUsersCache implements IGithubUsersCache {
     public Single<List<GithubUser>> getUsers() {
         return Single.fromCallable(()->{
             List<RoomGithubUser> roomGithubUsers = db.userDao().getAll();
-
             List<GithubUser> users = new ArrayList<>();
 
             for (RoomGithubUser roomGithubUser : roomGithubUsers) {
@@ -32,10 +31,8 @@ public class RoomGithubUsersCache implements IGithubUsersCache {
                         roomGithubUser.getLogin(),
                         roomGithubUser.getAvatarUrl(),
                         roomGithubUser.getReposUrl());
-
                 users.add(githubUser);
             }
-
             return users;
         });
     }
@@ -50,10 +47,8 @@ public class RoomGithubUsersCache implements IGithubUsersCache {
                         user.getLogin(),
                         user.getAvatarUrl(),
                         user.getReposUrl());
-
                 roomGithubUsers.add(roomUser);
             }
-
             db.userDao().insert(roomGithubUsers);
         }).subscribeOn(Schedulers.io());
     }

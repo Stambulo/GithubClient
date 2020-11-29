@@ -2,9 +2,7 @@ package com.stambulo.githubclient.mvp.model.repo.retrofit;
 
 import com.stambulo.githubclient.mvp.model.api.IDataSource;
 import com.stambulo.githubclient.mvp.model.cache.IGithubUsersCache;
-import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubUsersCache;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
-import com.stambulo.githubclient.mvp.model.entity.room.Database;
 import com.stambulo.githubclient.mvp.model.network.INetworkStatus;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
 
@@ -18,7 +16,7 @@ public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
     private final INetworkStatus networkStatus;
     private final IGithubUsersCache cache;
 
-    public RetrofitGithubUsersRepo(IDataSource api, INetworkStatus status, IGithubUsersCache cache) {
+    public RetrofitGithubUsersRepo(IDataSource api, INetworkStatus status, IGithubUsersCache cache){
         this.api = api;
         this.networkStatus = status;
         this.cache = cache;
@@ -26,13 +24,14 @@ public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
 
     @Override
     public Single<List<GithubUser>> getUsers() {
-        return networkStatus.isOnlineSingle().flatMap((isOline)-> {
-            if (isOline) {
-                return api.getUsers().flatMap((users) -> {
-                    return cache.saveUsers(users).toSingleDefault(users);
-                });
+        return networkStatus.isOnlineSingle().flatMap((isOnline)-> {
+
+            if (isOnline) {
+                return api.getUsers().flatMap((users) -> cache.saveUsers(users).toSingleDefault(users));
+
             } else {
                 return cache.getUsers();
+
             }
         }).subscribeOn(Schedulers.io());
     }

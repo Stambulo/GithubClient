@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.R;
+import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubRepositoriesCache;
 import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubUsersCache;
 import com.stambulo.githubclient.mvp.model.entity.room.Database;
+import com.stambulo.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
+import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -44,9 +47,12 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
         IGithubUsersRepo usersRepo = new RetrofitGithubUsersRepo(GithubApplication.INSTANCE.getApi(),
                 new AndroidNetworkStatus(),
                 new RoomGithubUsersCache(Database.getInstance()));
+        IGithubRepositoriesRepo githubRepositoriesRepo = new RetrofitGithubRepositoriesRepo(GithubApplication.INSTANCE.getApi(),
+                new AndroidNetworkStatus(),
+                new RoomGithubRepositoriesCache(Database.getInstance()));
         Router router = GithubApplication.getApplication().getRouter();
 
-        return new UsersPresenter(AndroidSchedulers.mainThread(), usersRepo, router);
+        return new UsersPresenter(AndroidSchedulers.mainThread(), usersRepo, githubRepositoriesRepo, router);
     }
 
     public static UsersFragment getInstance(int data) {
