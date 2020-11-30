@@ -1,13 +1,11 @@
 package com.stambulo.githubclient.mvp.model.repo.retrofit;
 
 import com.stambulo.githubclient.mvp.model.api.IDataSource;
+import com.stambulo.githubclient.mvp.model.cache.IGithubUsersCache;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
-import com.stambulo.githubclient.mvp.model.entity.room.Database;
-import com.stambulo.githubclient.mvp.model.entity.room.RoomGithubUser;
 import com.stambulo.githubclient.mvp.model.network.INetworkStatus;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
@@ -16,53 +14,24 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
     private final IDataSource api;
     private final INetworkStatus networkStatus;
-    private final Database db;
+    private final IGithubUsersCache cache;
 
-    public RetrofitGithubUsersRepo(IDataSource api, INetworkStatus status, Database database){
+    public RetrofitGithubUsersRepo(IDataSource api, INetworkStatus status, IGithubUsersCache cache){
         this.api = api;
         this.networkStatus = status;
-        this.db = database;
+        this.cache = cache;
     }
 
     @Override
     public Single<List<GithubUser>> getUsers() {
-        return networkStatus.isOnlineSingle().flatMap((isOnline) -> {
-            if(isOnline){
-                return api.getUsers().flatMap((users) -> {
-                    return Single.fromCallable(() -> {
-                       List<RoomGithubUser> roomGithubUsers = new ArrayList<>();
+        return networkStatus.isOnlineSingle().flatMap((isOnline)-> {
 
-                       for(GithubUser user: users){
-                           RoomGithubUser roomUser = new RoomGithubUser(user.getId(),
-                                   user.getLogin(),
-                                   user.getAvatarUrl(),
-                                   user.getReposUrl());
-
-                           roomGithubUsers.add(roomUser);
-                       }
-
-                       db.userDao().insert(roomGithubUsers);
-                       return users;
-                    });
-
-                });
+            if (isOnline) {
+                return api.getUsers().flatMap((users) -> cache.saveUsers(users).toSingleDefault(users));
 
             } else {
-                return Single.fromCallable(() -> {
-                    List<GithubUser> users = new ArrayList<>();
-                    List<RoomGithubUser> roomGithubUsers = db.userDao().getAll();
+                return cache.getUsers();
 
-                    for (RoomGithubUser roomGithubUser : roomGithubUsers){
-                        GithubUser githubUser = new GithubUser(roomGithubUser.getId(),
-                                roomGithubUser.getLogin(),
-                                roomGithubUser.getAvatarUrl(),
-                                roomGithubUser.getReposUrl());
-
-                        users.add(githubUser);
-                    }
-
-                    return users;
-                });
             }
         }).subscribeOn(Schedulers.io());
     }

@@ -1,4 +1,4 @@
-package com.stambulo.githubclient.mvp.model.repo;
+package com.stambulo.githubclient.mvp.model.cache;
 
 import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
@@ -8,7 +8,7 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
-public interface IGithubRepositoriesRepo {
-    Single<List<GithubRepository>> getRepositories(GithubUser user);
-    Completable getAllRepositories(List<GithubUser> users);
+public interface IGithubRepositoriesCache {
+    Single<List<GithubRepository>> getUserRepos(GithubUser user);
+    Completable putUserRepos(GithubUser user, List<GithubRepository> repositories);
 }

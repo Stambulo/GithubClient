@@ -8,10 +8,9 @@ import com.stambulo.githubclient.mvp.view.RepositoryView;
 import ru.terrakok.cicerone.Router;
 
 public class RepositoryPresenter extends MvpPresenter<RepositoryView> {
-
     private final GithubRepository githubRepository;
-
     private final Router router = GithubApplication.getApplication().getRouter();
+
 
     public RepositoryPresenter(GithubRepository githubRepository) {
         this.githubRepository = githubRepository;
@@ -20,7 +19,6 @@ public class RepositoryPresenter extends MvpPresenter<RepositoryView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-
         getViewState().init();
 
         String id = githubRepository.getId();

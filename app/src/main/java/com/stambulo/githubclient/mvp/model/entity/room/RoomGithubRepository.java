@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(
+@Entity (
         foreignKeys = {
                 @ForeignKey(
                         entity = RoomGithubUser.class,
@@ -22,4 +22,28 @@ public class RoomGithubRepository {
     public String name;
     public int forksCount;
     public String userId;
+
+    public RoomGithubRepository(@NonNull String id, String name, int forksCount, String userId) {
+        this.id = id;
+        this.name = name;
+        this.forksCount = forksCount;
+        this.userId = userId;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getForksCount() {
+        return forksCount;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 }
