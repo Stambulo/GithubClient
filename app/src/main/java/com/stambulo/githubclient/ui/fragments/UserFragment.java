@@ -70,7 +70,7 @@ public class UserFragment extends MvpAppCompatFragment implements UserView, Back
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_user, container, false);
-        mRecyclerView = (RecyclerView)mView.findViewById(R.id.rv_repositories);
+        mRecyclerView = mView.findViewById(R.id.rv_repositories);
         return mView;
     }
 

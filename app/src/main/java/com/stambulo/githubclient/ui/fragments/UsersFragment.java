@@ -12,12 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.R;
-import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubRepositoriesCache;
 import com.stambulo.githubclient.mvp.model.cache.room.RoomGithubUsersCache;
 import com.stambulo.githubclient.mvp.model.entity.room.Database;
-import com.stambulo.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
-import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubRepositoriesRepo;
 import com.stambulo.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 import com.stambulo.githubclient.mvp.view.UsersView;
@@ -32,11 +29,8 @@ import moxy.presenter.ProvidePresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UsersFragment extends MvpAppCompatFragment implements UsersView, BackButtonListener {
-
     private RecyclerView recyclerView;
     private UserRVAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-
     private View view;
 
     @InjectPresenter
@@ -47,12 +41,8 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
         IGithubUsersRepo usersRepo = new RetrofitGithubUsersRepo(GithubApplication.INSTANCE.getApi(),
                 new AndroidNetworkStatus(),
                 new RoomGithubUsersCache(Database.getInstance()));
-        IGithubRepositoriesRepo githubRepositoriesRepo = new RetrofitGithubRepositoriesRepo(GithubApplication.INSTANCE.getApi(),
-                new AndroidNetworkStatus(),
-                new RoomGithubRepositoriesCache(Database.getInstance()));
         Router router = GithubApplication.getApplication().getRouter();
-
-        return new UsersPresenter(AndroidSchedulers.mainThread(), usersRepo, githubRepositoriesRepo, router);
+        return new UsersPresenter(AndroidSchedulers.mainThread(), usersRepo, router);
     }
 
     public static UsersFragment getInstance(int data) {
@@ -75,13 +65,13 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_users, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv_users);
+        recyclerView = view.findViewById(R.id.rv_users);
         return view;
     }
 
     @Override
     public void init() {
-        layoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new UserRVAdapter(usersPresenter.getUsersListPresenter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
