@@ -9,7 +9,6 @@ import com.stambulo.githubclient.di.module.RepoModule;
 import com.stambulo.githubclient.mvp.presenter.MainPresenter;
 import com.stambulo.githubclient.mvp.presenter.UserPresenter;
 import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
-import com.stambulo.githubclient.ui.fragments.RepositoryFragment;
 
 import javax.inject.Singleton;
 
@@ -31,7 +30,4 @@ public interface AppComponent {
     void inject(MainPresenter mainPresenter);
     void inject(UsersPresenter usersPresenter);
     void inject(UserPresenter userPresenter);
-
-    // Домашка. Избавиться от лишней инъекции
-    void inject(RepositoryFragment fragment);
 }

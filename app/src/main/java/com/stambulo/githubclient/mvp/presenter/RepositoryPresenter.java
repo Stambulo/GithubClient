@@ -1,20 +1,21 @@
 package com.stambulo.githubclient.mvp.presenter;
 
-import moxy.MvpPresenter;
-import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
 import com.stambulo.githubclient.mvp.view.RepositoryView;
 
+import javax.inject.Inject;
+
+import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class RepositoryPresenter extends MvpPresenter<RepositoryView> {
     private final GithubRepository githubRepository;
-    private final Router router;
+
+    @Inject Router router;
 
 
-    public RepositoryPresenter(GithubRepository githubRepository, Router router) {
+    public RepositoryPresenter(GithubRepository githubRepository) {
         this.githubRepository = githubRepository;
-        this.router = router;
     }
 
     @Override
