@@ -8,6 +8,8 @@ import com.stambulo.githubclient.mvp.presenter.MainPresenter;
 import com.stambulo.githubclient.mvp.view.MainView;
 import com.stambulo.githubclient.ui.BackButtonListener;
 
+import javax.inject.Inject;
+
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import ru.terrakok.cicerone.Navigator;
@@ -15,16 +17,22 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.support.SupportAppNavigator;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
-    private final NavigatorHolder navigatorHolder = GithubApplication.getApplication().getNavigatorHolder();
-    private final Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.container);
 
     @InjectPresenter
     MainPresenter presenter;
+
+    @Inject
+    NavigatorHolder navigatorHolder;
+
+    private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(),
+            R.id.container);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
     @Override

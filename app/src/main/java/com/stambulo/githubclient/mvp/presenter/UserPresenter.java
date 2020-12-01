@@ -1,7 +1,6 @@
 package com.stambulo.githubclient.mvp.presenter;
 
-import android.util.Log;
-
+import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
@@ -13,34 +12,30 @@ import com.stambulo.githubclient.navigation.Screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.rxjava3.core.Scheduler;
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UserPresenter extends MvpPresenter<UserView> {
-    private static final String TAG = "--->";
-
-    private static final boolean VERBOSE = true;
-
-    private IGithubRepositoriesRepo githubRepositoriesRepo;
-    private Router router;
-    private Scheduler scheduler;
+    @Inject
+    IGithubRepositoriesRepo githubRepositoriesRepo;
+    @Inject
+    Router router;
+    @Inject
+    Scheduler scheduler;
     private final GithubUser user;
 
-    public UserPresenter(GithubUser user, Scheduler scheduler, IGithubRepositoriesRepo repo, Router router) {
+    public UserPresenter(GithubUser user) {
         this.user = user;
-        this.scheduler = scheduler;
-        this.githubRepositoriesRepo = repo;
-        this.router = router;
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
     private class RepositoriesListPresenter implements IRepositoryListPresenter {
         private final List<GithubRepository> repositories = new ArrayList<>();
         @Override
         public void onItemClick(RepositoryItemView view) {
-            if (VERBOSE) {
-                Log.i(TAG, " onItemClick " + view.getPos());
-            }
             final GithubRepository repository = repositories.get(view.getPos());
             router.navigateTo(new Screens.RepositoryScreen(repository));
         }
@@ -74,7 +69,7 @@ public class UserPresenter extends MvpPresenter<UserView> {
             repositoriesListPresenter.repositories.addAll(repositories);
             getViewState().updateList();
         }, (e) -> {
-            Log.w(TAG, "Error" + e.getMessage());
+            //Log.w(TAG, "Error" + e.getMessage());
         });
     }
 

@@ -9,15 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.R;
 import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
 import com.stambulo.githubclient.mvp.presenter.RepositoryPresenter;
 import com.stambulo.githubclient.mvp.view.RepositoryView;
 import com.stambulo.githubclient.ui.BackButtonListener;
 
+import javax.inject.Inject;
+
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
+import ru.terrakok.cicerone.Router;
 
 
 public class RepositoryFragment extends MvpAppCompatFragment implements RepositoryView, BackButtonListener {
@@ -26,18 +30,23 @@ public class RepositoryFragment extends MvpAppCompatFragment implements Reposito
     private TextView tv_title;
     private TextView tv_forksCount;
 
+
+    @Inject
+    Router router;
+
     @InjectPresenter
     RepositoryPresenter presenter;
 
     @ProvidePresenter
     RepositoryPresenter provideRepositoryPresenter() {
         final GithubRepository githubRepository = getArguments().getParcelable(REPOSITORY_ARG);
-        return new RepositoryPresenter(githubRepository);
+        return new RepositoryPresenter(githubRepository, router);
     }
 
 
     public RepositoryFragment() {
         super();
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
     public static RepositoryFragment newInstance(GithubRepository repository) {

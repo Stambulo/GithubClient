@@ -2,6 +2,7 @@ package com.stambulo.githubclient.mvp.presenter;
 
 import android.util.Log;
 
+import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubUser;
 import com.stambulo.githubclient.mvp.model.repo.IGithubUsersRepo;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
@@ -12,20 +13,24 @@ import com.stambulo.githubclient.navigation.Screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.rxjava3.core.Scheduler;
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
 public class UsersPresenter extends MvpPresenter<UsersView> {
     private static final String TAG = UsersPresenter.class.getSimpleName();
-    private final Router router;
-    private IGithubUsersRepo usersRepo;
-    private final Scheduler scheduler;
 
-    public UsersPresenter(Scheduler scheduler, IGithubUsersRepo usersRepo, Router router) {
-        this.scheduler = scheduler;
-        this.usersRepo = usersRepo;
-        this.router = router;
+    @Inject
+    Router router;
+    @Inject
+    IGithubUsersRepo usersRepo;
+    @Inject
+    Scheduler scheduler;
+
+    public UsersPresenter() {
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
     private class UsersListPresenter implements IUserListPresenter {

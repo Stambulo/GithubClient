@@ -9,11 +9,12 @@ import ru.terrakok.cicerone.Router;
 
 public class RepositoryPresenter extends MvpPresenter<RepositoryView> {
     private final GithubRepository githubRepository;
-    private final Router router = GithubApplication.getApplication().getRouter();
+    private final Router router;
 
 
-    public RepositoryPresenter(GithubRepository githubRepository) {
+    public RepositoryPresenter(GithubRepository githubRepository, Router router) {
         this.githubRepository = githubRepository;
+        this.router = router;
     }
 
     @Override

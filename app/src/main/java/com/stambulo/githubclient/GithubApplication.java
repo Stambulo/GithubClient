@@ -2,43 +2,35 @@ package com.stambulo.githubclient;
 
 import android.app.Application;
 
+import com.stambulo.githubclient.di.AppComponent;
+import com.stambulo.githubclient.di.DaggerAppComponent;
+import com.stambulo.githubclient.di.module.AppModule;
 import com.stambulo.githubclient.mvp.model.api.IDataSource;
-
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
 
 public class GithubApplication extends Application {
     public static final boolean DEBUG = true;
     public static GithubApplication INSTANCE;
-    private Cicerone<Router> cicerone;
+
     private ApiHolder apiHolder;
+    AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-        initCicerone();
         apiHolder = new ApiHolder();
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
     public static GithubApplication getApplication(){
         return INSTANCE;
     }
 
-    private void initCicerone(){
-        cicerone = Cicerone.create();
-    }
-
-    public Router getRouter(){
-        return cicerone.getRouter();
-    }
-
-    public NavigatorHolder getNavigatorHolder() {
-        return cicerone.getNavigatorHolder();
-    }
-
     public IDataSource getApi() {
         return apiHolder.getDataSource();
+    }
+
+    public AppComponent getAppComponent(){
+        return appComponent;
     }
 }
