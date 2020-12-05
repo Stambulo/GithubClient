@@ -22,6 +22,7 @@ import moxy.presenter.ProvidePresenter;
 
 public class RepositoryFragment extends MvpAppCompatFragment implements RepositoryView, BackButtonListener {
     private static final String REPOSITORY_ARG = "repository";
+    private View mView;
     private TextView tv_id;
     private TextView tv_title;
     private TextView tv_forksCount;
@@ -54,7 +55,7 @@ public class RepositoryFragment extends MvpAppCompatFragment implements Reposito
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_repository, container, false);
+        mView = inflater.inflate(R.layout.fragment_repository, container, false);
         tv_id = (TextView) mView.findViewById(R.id.tv_id);
         tv_title = (TextView) mView.findViewById(R.id.tv_title);
         tv_forksCount = (TextView) mView.findViewById(R.id.tv_forksCount);

@@ -30,11 +30,11 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
     Scheduler scheduler;
 
     public UsersPresenter() {
-        GithubApplication.INSTANCE.getAppComponent().inject(this);
+        GithubApplication.INSTANCE.initUserSubcomponent().inject(this);
     }
 
     private class UsersListPresenter implements IUserListPresenter {
-        private final List<GithubUser> users = new ArrayList<>();
+        private List<GithubUser> users = new ArrayList<>();
 
         @Override
         public void onItemClick(UserItemView view) {
@@ -56,7 +56,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
     }
 
 
-    private final UsersListPresenter usersListPresenter = new UsersListPresenter();
+    private UsersListPresenter usersListPresenter = new UsersListPresenter();
 
     public UsersListPresenter getUsersListPresenter() {
         return usersListPresenter;
@@ -82,7 +82,13 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
 
 
     public boolean backPressed() {
+        router.exit();
         return true;
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getViewState().release();
     }
 }

@@ -29,11 +29,11 @@ public class UserPresenter extends MvpPresenter<UserView> {
 
     public UserPresenter(GithubUser user) {
         this.user = user;
-        GithubApplication.INSTANCE.getAppComponent().inject(this);
+        GithubApplication.INSTANCE.initRepositoriesSubcomponent().inject(this);
     }
 
     private class RepositoriesListPresenter implements IRepositoryListPresenter {
-        private final List<GithubRepository> repositories = new ArrayList<>();
+        private List<GithubRepository> repositories = new ArrayList<>();
         @Override
         public void onItemClick(RepositoryItemView view) {
             final GithubRepository repository = repositories.get(view.getPos());
@@ -51,7 +51,7 @@ public class UserPresenter extends MvpPresenter<UserView> {
     }
 
 
-    private final UserPresenter.RepositoriesListPresenter repositoriesListPresenter = new UserPresenter.RepositoriesListPresenter();
+    private UserPresenter.RepositoriesListPresenter repositoriesListPresenter = new UserPresenter.RepositoriesListPresenter();
     public IRepositoryListPresenter getPresenter() {
         return repositoriesListPresenter;
     }
@@ -74,12 +74,13 @@ public class UserPresenter extends MvpPresenter<UserView> {
     }
 
     public boolean backPressed() {
-        //router.exit();
+        router.exit();
         return true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getViewState().release();
     }
 }

@@ -1,5 +1,6 @@
 package com.stambulo.githubclient.mvp.presenter;
 
+import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.mvp.model.entity.GithubRepository;
 import com.stambulo.githubclient.mvp.view.RepositoryView;
 
@@ -16,6 +17,7 @@ public class RepositoryPresenter extends MvpPresenter<RepositoryView> {
 
     public RepositoryPresenter(GithubRepository githubRepository) {
         this.githubRepository = githubRepository;
+        GithubApplication.INSTANCE.initRepositoriesSubcomponent().inject(this);
     }
 
     @Override
