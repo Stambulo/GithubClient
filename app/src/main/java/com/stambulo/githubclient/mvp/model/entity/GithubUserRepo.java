@@ -13,7 +13,7 @@ public class GithubUserRepo {
             new GithubUser("4", "login4", "", ""),
             new GithubUser("5", "login5", "", "")));
 
-    public List<GithubUser> getUser() {
+    public List<GithubUser> getUsers() {
         return Collections.unmodifiableList(repositories);
     }
 }

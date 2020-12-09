@@ -5,10 +5,9 @@ import com.stambulo.githubclient.di.module.ApiModule;
 import com.stambulo.githubclient.di.module.AppModule;
 import com.stambulo.githubclient.di.module.CacheModule;
 import com.stambulo.githubclient.di.module.CiceroneModule;
-import com.stambulo.githubclient.di.module.RepoModule;
+import com.stambulo.githubclient.di.module.ImageModule;
+import com.stambulo.githubclient.di.user.UsersSubcomponent;
 import com.stambulo.githubclient.mvp.presenter.MainPresenter;
-import com.stambulo.githubclient.mvp.presenter.UserPresenter;
-import com.stambulo.githubclient.mvp.presenter.UsersPresenter;
 
 import javax.inject.Singleton;
 
@@ -21,13 +20,13 @@ import dagger.Component;
                 AppModule.class,
                 CacheModule.class,
                 CiceroneModule.class,
-                RepoModule.class
+                ImageModule.class
         }
 )
 
 public interface AppComponent {
+    UsersSubcomponent userSubComponent();
+
     void inject(MainActivity mainActivity);
     void inject(MainPresenter mainPresenter);
-    void inject(UsersPresenter usersPresenter);
-    void inject(UserPresenter userPresenter);
 }

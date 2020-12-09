@@ -13,8 +13,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
     private final IDataSource api;
-    private final INetworkStatus networkStatus;
-    private final IGithubUsersCache cache;
+    private INetworkStatus networkStatus;
+    final IGithubUsersCache cache;
 
     public RetrofitGithubUsersRepo(IDataSource api, INetworkStatus status, IGithubUsersCache cache){
         this.api = api;

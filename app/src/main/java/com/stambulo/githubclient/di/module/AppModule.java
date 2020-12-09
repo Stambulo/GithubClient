@@ -6,7 +6,6 @@ import dagger.Provides;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Scheduler;
 
-
 @Module
 public class AppModule {
     private GithubApplication app;

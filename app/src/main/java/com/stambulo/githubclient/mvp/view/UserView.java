@@ -8,5 +8,6 @@ import moxy.viewstate.strategy.StateStrategyType;
 public interface UserView extends MvpView {
     void init();
     void updateList();
+    void release();
 }
 

@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
     private final IDataSource api;
-    private final INetworkStatus networkStatus;
+    private INetworkStatus networkStatus;
     final IGithubRepositoriesCache cache;
 
     public RetrofitGithubRepositoriesRepo(IDataSource api, INetworkStatus status, IGithubRepositoriesCache cache) {

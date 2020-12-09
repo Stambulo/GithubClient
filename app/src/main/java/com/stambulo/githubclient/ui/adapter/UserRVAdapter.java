@@ -10,18 +10,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.stambulo.githubclient.GithubApplication;
 import com.stambulo.githubclient.R;
 import com.stambulo.githubclient.mvp.presenter.list.IUserListPresenter;
-import com.stambulo.githubclient.mvp.view.list.UserItemView;
-import com.stambulo.githubclient.mvp.view.image.GlideImageLoader;
 import com.stambulo.githubclient.mvp.view.image.IImageLoader;
+import com.stambulo.githubclient.mvp.view.list.UserItemView;
+
+import javax.inject.Inject;
 
 public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder> {
     private IUserListPresenter presenter;
-    private static IImageLoader<ImageView> imageLoader = new GlideImageLoader();
+
+    @Inject
+    IImageLoader<ImageView> imageLoader;
 
     public UserRVAdapter(IUserListPresenter presenter) {
         this.presenter = presenter;
+        GithubApplication.INSTANCE.initUserSubcomponent().inject(this);
     }
 
     @NonNull
@@ -47,7 +52,7 @@ public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder
         return presenter.getCount();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements UserItemView {
+    public class ViewHolder extends RecyclerView.ViewHolder implements UserItemView {
         TextView textView;
         ImageView avatarView;
         int position;

@@ -31,6 +31,7 @@ import ru.terrakok.cicerone.Router;
 public class UsersFragment extends MvpAppCompatFragment implements UsersView, BackButtonListener {
     private RecyclerView recyclerView;
     private UserRVAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     private View view;
 
     @InjectPresenter
@@ -62,7 +63,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
 
     @Override
     public void init() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new UserRVAdapter(usersPresenter.getUsersListPresenter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -71,6 +72,11 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     @Override
     public void updateList() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void release() {
+        GithubApplication.INSTANCE.releaseUserSubcomponent();
     }
 
     @Override

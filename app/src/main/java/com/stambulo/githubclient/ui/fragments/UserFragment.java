@@ -81,6 +81,11 @@ public class UserFragment extends MvpAppCompatFragment implements UserView, Back
     }
 
     @Override
+    public void release() {
+        GithubApplication.INSTANCE.releaseRepositorySubcomponent();
+    }
+
+    @Override
     public boolean backPressed() {
         return mPresenter.backPressed();
     }
